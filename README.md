@@ -134,8 +134,6 @@ You can create graphs/charts etc in Grafana in order to visualise the ElasticSea
   <img width="550" height="250" src="coverage.png" border="3">
 </p>
 
-## Conclusion
-...
 
 ## Running the Demo
 To get this demo up and running:
@@ -145,28 +143,17 @@ Start the docker containers using the _docker_compose_ file in the `Docker` fold
 ```bash
 docker-compose build && docker-compose up
 ```
+This will spin up `3` containers which can be accessed by navigating to the following url's
+* ElasticSearch (http://127.0.0.1:9200)
+* Kibana - (http://127.0.0.1:5601)
+* Grafana ((http://127.0.0.1:3000)
 
-#### Create Index in ElasticSearch
-Create an index in ElasticSearch called `endpoint`
-```bash
-PUT /endpoint HTTP/1.1
-Host: 127.0.0.1:9200/endpoint
-Content-Type: application/json
-{
-  "mappings": {
-    "test": { 
-      "properties": {
-      	"timestamp":  { "type": "date"},
-      	"method":{ "type": "text", "fielddata" : true},
-        "path":    { "type": "text", "fielddata" : true}
-        }
-      }
-    }
-}
-```
+#### Run Tests
+Run the tests in `TestEndpoints`. A `@BeforeSuite` execution hook is triggered which will create a index in ElasticSearch called `endpoint`. Once the tests have finished running, you can add the Index Pattern `endpoint` and hopefully see the data sent by thee tests.
 
-#### Configure Grafana datasource
-Setup Grafana by adding `ElasticSearch` as the datasource and `endpoint` as the index and then add graphs as desired
+
+#### Configure Grafana
+Setup Grafana by adding `ElasticSearch` as the datasource and `endpoint` as the index. Finally, create graphs as desired.
 
 <p align="center">
   <img width="300" height="350" src="grafana-datasource.png">
